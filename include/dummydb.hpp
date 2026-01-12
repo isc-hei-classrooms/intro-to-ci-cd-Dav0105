@@ -8,7 +8,7 @@
 #include <limits>
 
 namespace ddb {
-
+oh no i broke the code :(
 /// The size of a table.
 constexpr std::size_t table_size = 4096;
 
