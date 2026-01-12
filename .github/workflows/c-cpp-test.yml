@@ -1,0 +1,33 @@
+name: C/C++ Tests
+
+on:
+  push:
+    # Execute workflow when pushing in main
+    branches: [ "main" ]
+  pull_request:
+    # Execute workflow when creating a pull request
+    branches: [ "main" ]
+
+jobs:
+  build-and-test-ubuntu:
+    # OS where the workflow will run
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clones the project and checkout
+      - name: Configure (Checkout to latest version)
+        uses: actions/checkout@v4
+
+      # Install dependencies using apt-get
+      - name: Install dependencies
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y build-essential cmake  # add any libs you need
+
+      # Build the project 
+      - name: Build with make
+        run: make
+
+        # Run the tests
+      - name: Runs tests
+        run: make test
