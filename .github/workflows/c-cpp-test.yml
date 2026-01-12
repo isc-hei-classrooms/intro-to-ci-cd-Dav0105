@@ -13,6 +13,12 @@ jobs:
     # OS where the workflow will run
     runs-on: ubuntu-latest
 
+    # Permissions that the workflow has
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+
     steps:
       # Clones the project and checkout
       - name: Configure (Checkout to latest version)
