@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Build and Test
-        uses: ./c-cpp-test.yml
+        uses: ./.github/workflows/c-cpp-release.yml
 
       - name: Build release
         run: make release
@@ -26,3 +26,5 @@ jobs:
         uses: softprops/action-gh-release@v2.5.0
         with:
           files: ./build/main
+          name: ${{ github.ref_name }}
+          body: "Automated build released from CI"
