@@ -1,23 +1,26 @@
-name: C/C++ Tests
+name: DummyDB CI/CD
 
 on:
   push:
     # Execute workflow when pushing in main
     branches: [ "main" ]
+    tags:
+      - "v*.*.*"
   pull_request:
     # Execute workflow when creating a pull request
     branches: [ "main" ]
+  
 
 jobs:
-  build-and-test-ubuntu:
+  build-ubuntu:
     # OS where the workflow will run
     runs-on: ubuntu-latest
 
     # Permissions that the workflow has
-    permissions:
-      contents: read
-      issues: read
-      pull-requests: read
+    # permissions:
+    #   contents: read
+    #   issues: read
+    #   pull-requests: read
 
     steps:
       # Clones the project and checkout
@@ -32,8 +35,29 @@ jobs:
 
       # Build the project 
       - name: Build with make
-        run: make
+        run: make release
 
-        # Run the tests
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    needs: build-ubuntu
+
+    steps:
+      # Run the tests
       - name: Runs tests
         run: make test
+
+  deploy-ubuntu:
+    # TODO: Check action ref
+    if: github.action_ref == 'tags'
+    runs-on: ubuntu-latest
+    needs: build-ubuntu
+
+    steps:
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            "./build/main"
+             "./LICENSE"
+          if-no-files-found: error
+    
