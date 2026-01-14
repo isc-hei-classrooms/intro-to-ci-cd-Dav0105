@@ -9,6 +9,7 @@ on:
   pull_request:
     # Execute workflow when creating a pull request
     branches: [ "main" ]
+  workflow_call: 
   
 
 jobs:
