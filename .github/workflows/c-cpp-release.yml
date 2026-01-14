@@ -1,0 +1,24 @@
+name: DummyDB CD
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  release: 
+
+jobs:
+  build-ubuntu:
+    uses: isc-hei-classrooms/intro-to-ci-cd-Dav0105/.github/workflows/c-cpp-test.yml@main
+      
+  deploy-ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            "./build/main"
+            "./LICENSE"
