@@ -4,8 +4,6 @@ on:
   push:
     # Execute workflow when pushing in main
     branches: [ "main" ]
-    tags:
-      - "v*.*.*"
   pull_request:
     # Execute workflow when creating a pull request
     branches: [ "main" ]
