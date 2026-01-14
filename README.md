@@ -65,13 +65,20 @@ make test
 
 ## CI/CD
 
+### Continuous Integration
 When pushing a commit/creating a Pull Request to the `main` branch, CI workflow will trigger. This Workflow checks if the project :
 - Builds successfully
 - Tests succeed
 - Docker image can be created (smoke test)
+At the end, it uploads artifacts that were created during the build process.
 
+# Continuous Deployment
 CD triggers when a new release is created.
+Releases are named `v<major>.<minor>.<patch>`. (For example `v1.2.0`). This Workflow does :
+- Download artifacts that were made for this commit
+- Create a release with said artifacts
+- Publish a Docker image
+- Generate artifact attestation
 
-Releases are named `v<major>.<minor>.<patch>`. (For example `v1.2.0`)
-
+# Artifact naming and versioning
 Artifact have an unique name containing the `run_id` and a timestamp.
