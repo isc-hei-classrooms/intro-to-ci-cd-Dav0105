@@ -32,9 +32,23 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y build-essential cmake
 
+      # Generate unique number version for artifact
+      # https://www.codegenes.net/blog/how-to-version-build-artifacts-using-github-actions/
+      - name: Generate unique version
+        id: generate_version
+        run: |
+          # Get current timestamp (YYYYMMDDHHMMSS format, e.g., 20240520153045)
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          # Combine run_id and timestamp (e.g., v123456789-20240520153045)
+          VERSION="v${{ github.run_id }}-${TIMESTAMP}"
+          # Store version in environment variable for later steps
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       # Build the project 
       - name: Build with make
-        run: make release
+        run: |
+          make release
+          echo "Built app version: ${{ env.VERSION }}"
 
       # Run the tests
       - name: Runs tests
@@ -48,7 +62,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dummydb-build
+          name: dummydb-build-${{ env.VERSION }}
           path: |
             ./build/main
             ./LICENSE

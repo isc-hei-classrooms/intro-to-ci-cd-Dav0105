@@ -65,4 +65,13 @@ make test
 
 ## CI/CD
 
-TO BE COMPLETED 
+When pushing a commit/creating a Pull Request to the `main` branch, CI workflow will trigger. This Workflow checks if the project :
+- Builds successfully
+- Tests succeed
+- Docker image can be created (smoke test)
+
+CD triggers when a new release is created.
+
+Releases are named `v<major>.<minor>.<patch>`. (For example `v1.2.0`)
+
+Artifact have an unique name containing the `run_id` and a timestamp.
