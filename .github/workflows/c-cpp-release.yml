@@ -1,9 +1,6 @@
 name: DummyDB CD
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
   release: 
 
 jobs:
@@ -13,15 +10,23 @@ jobs:
   deploy-ubuntu:
     runs-on: ubuntu-latest
     needs: build-ubuntu
-    
+
     permissions:
       contents: write
 
     steps:
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dummydb-build
+          path: ./artifact
+
       - name: Release
         uses: softprops/action-gh-release@v2
+        # Only run on tag pushes
         if: github.ref_type == 'tag'
         with:
           files: |
-            "./build/main"
-            "./LICENSE"
+            ./artifact/build/main
+            ./artifact/LICENSE

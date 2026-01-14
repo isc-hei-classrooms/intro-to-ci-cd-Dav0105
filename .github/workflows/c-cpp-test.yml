@@ -41,4 +41,13 @@ jobs:
       # Run the tests
       - name: Runs tests
         run: make test
+
+      # Upload artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dummydb-build
+          path: |
+            ./build/main
+            ./LICENSE
     
